@@ -1,5 +1,5 @@
-import SpriteSheet from './SpriteSheet.js';
-import {loadImage, loadLevel} from './loaders.js';
+import {loadLevel} from './loaders.js';
+import {loadMarioSprite, loadBackgroundSprites} from './sprites.js';
 
 const canvas = document.querySelector('#screen');
 // Acces the context API to actually draw on the canvas
@@ -15,23 +15,21 @@ function drawBackground(background, context,sprites){
     });
 }
 
-function loadBackgroundSprites(){
-    return loadImage('./img/mario_tileset.png')
-        .then((image)=>{
-            const sprites = new SpriteSheet(image, 16, 16);
-            sprites.define('ground', 0 , 0);
-            sprites.define('sky', 3 , 23);
-            return sprites
-        });
-}
-
 Promise
     .all([
+        loadMarioSprite(),
         loadBackgroundSprites(),
         loadLevel('1-1')
     ])
-    .then(([sprites,level])=>{
+    .then(([mario,sprites,level])=>{
         level.backgrounds.forEach(background=>{
             drawBackground(background, context, sprites);
         });
+
+        const pos = {
+            x: 64,
+            y: 64
+        }
+
+        mario.draw('idle', context, pos.x, pos.y)
     });
