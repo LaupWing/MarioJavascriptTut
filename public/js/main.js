@@ -15,24 +15,23 @@ function drawBackground(background, context,sprites){
     });
 }
 
-loadImage('./img/mario_tileset.png')
-    .then((image)=>{
-        const sprites = new SpriteSheet(image, 16, 16);
-        sprites.define('ground', 0 , 0);
-        sprites.define('sky', 3 , 23);
-        
+function loadBackgroundSprites(){
+    return loadImage('./img/mario_tileset.png')
+        .then((image)=>{
+            const sprites = new SpriteSheet(image, 16, 16);
+            sprites.define('ground', 0 , 0);
+            sprites.define('sky', 3 , 23);
+            return sprites
+        });
+}
+
+Promise
+    .all([
+        loadBackgroundSprites(),
         loadLevel('1-1')
-            .then(level=>{
-                console.log(level)
-                level.backgrounds.forEach(background=>{
-                    console.log(background);
-                    drawBackground(background, context, sprites);
-                })
-                // drawBackground(level.background[1], context, sprites);
-            });
-        // for(let x =0; x< 25; ++x){
-        //     for (let y=12; y<14; ++y){
-        //         sprites.drawTile('ground', context, x, y);
-        //     }
-        // }
+    ])
+    .then(([sprites,level])=>{
+        level.backgrounds.forEach(background=>{
+            drawBackground(background, context, sprites);
+        });
     });
