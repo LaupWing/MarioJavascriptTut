@@ -1,6 +1,6 @@
-export function createSpriteLayer(sprite, pos){
+export function createSpriteLayer(entity){
     return function drawSpriteLayer(context){
-        sprite.draw('idle', context, pos.x, pos.y);
+        entity.draw(context);
     }
 }
 
