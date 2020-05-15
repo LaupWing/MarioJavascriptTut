@@ -18,7 +18,6 @@ export default class Entity{
     }
 
     addTrait(trait){
-        console.log(trait)
         this.traits.push(trait);
         this[trait.NAME] = trait;
     }
