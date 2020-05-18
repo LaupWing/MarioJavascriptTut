@@ -2,7 +2,13 @@ import Compositor from './Compositor.js';
 
 export default class Level {
     constructor(){
-        this.composition = new CompositionEvent();
+        this.comp = new Compositor();
         this.entities = new Set();    
+    }
+
+    update(deltaTime){
+        this.entities.forEach(entity=>{
+            entity.update(deltaTime);
+        })
     }
 }
